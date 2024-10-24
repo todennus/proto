@@ -1,3 +1,3 @@
-# todennus-proto
+# proto
 
 Todennus proto files
