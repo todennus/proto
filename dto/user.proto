@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package todennus.proto.dto;
+
+option go_package = "github.com/xybor/todennus-backend/adapter/grpc/gen/dto";
+
+import "dto/resource/user.proto";
+
+message UserValidateRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message UserValidateResponse {
+    resource.User user = 1;
+}

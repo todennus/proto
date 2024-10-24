@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package todennus.proto.dto.resource;
+
+option go_package = "github.com/xybor/todennus-backend/adapter/grpc/gen/dto/resource";
+
+message User {
+    int64 id = 1;
+    string username = 2;
+    string display_name = 3;
+    string role = 4;
+}
