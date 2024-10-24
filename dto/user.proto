@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package todennus.proto.dto;
 
-option go_package = "github.com/xybor/todennus-backend/adapter/grpc/gen/dto";
+option go_package = "github.com/todennus/backend/adapter/grpc/gen/dto";
 
 import "dto/resource/user.proto";
 
