@@ -2,10 +2,11 @@ syntax = "proto3";
 
 package todennus.proto.service;
 
-option go_package = "github.com/todennus/backend/adapter/grpc/gen/service";
+option go_package = "github.com/todennus/proto/gen/service";
 
 import "dto/user.proto";
 
 service User {
+    rpc GetByID(dto.UserGetByIDRequest) returns (dto.UserGetByIDResponse) {}
     rpc Validate (dto.UserValidateRequest) returns (dto.UserValidateResponse) {}
 }

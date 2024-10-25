@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package todennus.proto.dto;
 
-option go_package = "github.com/todennus/backend/adapter/grpc/gen/dto";
+option go_package = "github.com/todennus/proto/gen/service/dto";
 
 import "dto/resource/user.proto";
 
@@ -12,5 +12,13 @@ message UserValidateRequest {
 }
 
 message UserValidateResponse {
+    resource.User user = 1;
+}
+
+message UserGetByIDRequest {
+    int64 id = 1;
+}
+
+message UserGetByIDResponse {
     resource.User user = 1;
 }
