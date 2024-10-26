@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package todennus.proto.service;
+
+option go_package = "github.com/todennus/proto/gen/service";
+
+import "google/protobuf/empty.proto";
+import "dto/oauth2_client.proto";
+
+service OAuth2Client {
+    rpc GetByID(dto.OAuth2ClientGetByIDRequest) returns (dto.OAuth2ClientGetByIDResponse) {}
+    rpc Validate (dto.OAuth2ClientValidateRequest) returns (google.protobuf.Empty) {}
+}
