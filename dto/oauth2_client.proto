@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package todennus.proto.dto;
+
+option go_package = "github.com/todennus/proto/gen/service/dto";
+
+import "dto/resource/oauth2_client.proto";
+
+enum OAuth2ClientConfidentialRequirement {
+    REQUIRE = 0;
+	NOT_REQUIRE = 1;
+	DEPEND = 2;
+}
+
+message OAuth2ClientValidateRequest {
+    int64 client_id = 1;
+    string client_secret = 2;
+    OAuth2ClientConfidentialRequirement requirement = 3;
+    string requested_scope = 4;
+}
+
+message OAuth2ClientGetByIDRequest {
+    int64 client_id = 1;
+}
+
+message OAuth2ClientGetByIDResponse {
+    resource.OAuth2Client client = 1;
+}

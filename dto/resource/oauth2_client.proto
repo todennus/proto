@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package todennus.proto.dto.resource;
+
+option go_package = "github.com/todennus/proto/gen/service/dto/resource";
+
+message OAuth2Client {
+    int64 id = 1;
+    int64 owner_id = 2;
+    string name = 3;
+    bool is_confidential = 4;
+    string allowed_scope = 5;
+}
