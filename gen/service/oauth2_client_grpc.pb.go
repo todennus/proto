@@ -8,7 +8,6 @@ package service
 
 import (
 	context "context"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	dto "github.com/todennus/proto/gen/service/dto"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
@@ -30,7 +29,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OAuth2ClientClient interface {
 	GetByID(ctx context.Context, in *dto.OAuth2ClientGetByIDRequest, opts ...grpc.CallOption) (*dto.OAuth2ClientGetByIDResponse, error)
-	Validate(ctx context.Context, in *dto.OAuth2ClientValidateRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	Validate(ctx context.Context, in *dto.OAuth2ClientValidateRequest, opts ...grpc.CallOption) (*dto.OAuth2ClientValidateResponse, error)
 }
 
 type oAuth2ClientClient struct {
@@ -51,9 +50,9 @@ func (c *oAuth2ClientClient) GetByID(ctx context.Context, in *dto.OAuth2ClientGe
 	return out, nil
 }
 
-func (c *oAuth2ClientClient) Validate(ctx context.Context, in *dto.OAuth2ClientValidateRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *oAuth2ClientClient) Validate(ctx context.Context, in *dto.OAuth2ClientValidateRequest, opts ...grpc.CallOption) (*dto.OAuth2ClientValidateResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(dto.OAuth2ClientValidateResponse)
 	err := c.cc.Invoke(ctx, OAuth2Client_Validate_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -66,7 +65,7 @@ func (c *oAuth2ClientClient) Validate(ctx context.Context, in *dto.OAuth2ClientV
 // for forward compatibility.
 type OAuth2ClientServer interface {
 	GetByID(context.Context, *dto.OAuth2ClientGetByIDRequest) (*dto.OAuth2ClientGetByIDResponse, error)
-	Validate(context.Context, *dto.OAuth2ClientValidateRequest) (*empty.Empty, error)
+	Validate(context.Context, *dto.OAuth2ClientValidateRequest) (*dto.OAuth2ClientValidateResponse, error)
 	mustEmbedUnimplementedOAuth2ClientServer()
 }
 
@@ -80,7 +79,7 @@ type UnimplementedOAuth2ClientServer struct{}
 func (UnimplementedOAuth2ClientServer) GetByID(context.Context, *dto.OAuth2ClientGetByIDRequest) (*dto.OAuth2ClientGetByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetByID not implemented")
 }
-func (UnimplementedOAuth2ClientServer) Validate(context.Context, *dto.OAuth2ClientValidateRequest) (*empty.Empty, error) {
+func (UnimplementedOAuth2ClientServer) Validate(context.Context, *dto.OAuth2ClientValidateRequest) (*dto.OAuth2ClientValidateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
 }
 func (UnimplementedOAuth2ClientServer) mustEmbedUnimplementedOAuth2ClientServer() {}

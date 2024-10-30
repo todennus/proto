@@ -1,4 +1,4 @@
-proto-gen:
+gen:
 	rm -rf ./gen/service/* && \
 	protoc \
 	--go_out=./gen/service \
@@ -11,3 +11,5 @@ proto-gen:
 	./*.proto \
 	./dto/*.proto \
 	./dto/resource/*.proto
+
+.PHONY: gen

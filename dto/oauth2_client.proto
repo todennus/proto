@@ -16,7 +16,10 @@ message OAuth2ClientValidateRequest {
     int64 client_id = 1;
     string client_secret = 2;
     OAuth2ClientConfidentialRequirement requirement = 3;
-    string requested_scope = 4;
+}
+
+message OAuth2ClientValidateResponse {
+    resource.OAuth2Client client = 1;
 }
 
 message OAuth2ClientGetByIDRequest {
