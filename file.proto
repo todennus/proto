@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package todennus.proto.service;
+
+option go_package = "github.com/todennus/proto/gen/service";
+
+import "dto/file.proto";
+
+service File {
+    rpc ValidateTemporaryFile(dto.FileValidateTemporaryFileRequest) returns (dto.FileValidateTemporaryFileResponse) {}
+    rpc CommandTemporaryFile (dto.FileCommandTemporaryFileRequest) returns (dto.FileCommandTemporaryFileResponse) {}
+}

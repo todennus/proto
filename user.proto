@@ -9,4 +9,5 @@ import "dto/user.proto";
 service User {
     rpc GetByID(dto.UserGetByIDRequest) returns (dto.UserGetByIDResponse) {}
     rpc Validate (dto.UserValidateRequest) returns (dto.UserValidateResponse) {}
+    rpc ValidateAvatarPolicyToken(dto.UserValidateAvatarPolicyTokenRequest) returns (dto.UserValidateAvatarPolicyTokenResponse) {}
 }

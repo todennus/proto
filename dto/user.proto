@@ -22,3 +22,13 @@ message UserGetByIDRequest {
 message UserGetByIDResponse {
     resource.User user = 1;
 }
+
+message UserValidateAvatarPolicyTokenRequest {
+    string policy_token = 1;
+}
+
+message UserValidateAvatarPolicyTokenResponse {
+    int64 user_id = 1;
+    repeated string allowed_types = 2;
+    int32 max_size = 3;
+}

@@ -20,8 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_GetByID_FullMethodName  = "/todennus.proto.service.User/GetByID"
-	User_Validate_FullMethodName = "/todennus.proto.service.User/Validate"
+	User_GetByID_FullMethodName                   = "/todennus.proto.service.User/GetByID"
+	User_Validate_FullMethodName                  = "/todennus.proto.service.User/Validate"
+	User_ValidateAvatarPolicyToken_FullMethodName = "/todennus.proto.service.User/ValidateAvatarPolicyToken"
 )
 
 // UserClient is the client API for User service.
@@ -30,6 +31,7 @@ const (
 type UserClient interface {
 	GetByID(ctx context.Context, in *dto.UserGetByIDRequest, opts ...grpc.CallOption) (*dto.UserGetByIDResponse, error)
 	Validate(ctx context.Context, in *dto.UserValidateRequest, opts ...grpc.CallOption) (*dto.UserValidateResponse, error)
+	ValidateAvatarPolicyToken(ctx context.Context, in *dto.UserValidateAvatarPolicyTokenRequest, opts ...grpc.CallOption) (*dto.UserValidateAvatarPolicyTokenResponse, error)
 }
 
 type userClient struct {
@@ -60,12 +62,23 @@ func (c *userClient) Validate(ctx context.Context, in *dto.UserValidateRequest, 
 	return out, nil
 }
 
+func (c *userClient) ValidateAvatarPolicyToken(ctx context.Context, in *dto.UserValidateAvatarPolicyTokenRequest, opts ...grpc.CallOption) (*dto.UserValidateAvatarPolicyTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(dto.UserValidateAvatarPolicyTokenResponse)
+	err := c.cc.Invoke(ctx, User_ValidateAvatarPolicyToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
 type UserServer interface {
 	GetByID(context.Context, *dto.UserGetByIDRequest) (*dto.UserGetByIDResponse, error)
 	Validate(context.Context, *dto.UserValidateRequest) (*dto.UserValidateResponse, error)
+	ValidateAvatarPolicyToken(context.Context, *dto.UserValidateAvatarPolicyTokenRequest) (*dto.UserValidateAvatarPolicyTokenResponse, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -81,6 +94,9 @@ func (UnimplementedUserServer) GetByID(context.Context, *dto.UserGetByIDRequest)
 }
 func (UnimplementedUserServer) Validate(context.Context, *dto.UserValidateRequest) (*dto.UserValidateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
+}
+func (UnimplementedUserServer) ValidateAvatarPolicyToken(context.Context, *dto.UserValidateAvatarPolicyTokenRequest) (*dto.UserValidateAvatarPolicyTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateAvatarPolicyToken not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -139,6 +155,24 @@ func _User_Validate_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_ValidateAvatarPolicyToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(dto.UserValidateAvatarPolicyTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).ValidateAvatarPolicyToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_ValidateAvatarPolicyToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).ValidateAvatarPolicyToken(ctx, req.(*dto.UserValidateAvatarPolicyTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,6 +187,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Validate",
 			Handler:    _User_Validate_Handler,
+		},
+		{
+			MethodName: "ValidateAvatarPolicyToken",
+			Handler:    _User_ValidateAvatarPolicyToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

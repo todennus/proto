@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package todennus.proto.dto;
+
+option go_package = "github.com/todennus/proto/gen/service/dto";
+
+enum FileCommandTemporaryFile {
+    Delete = 0;
+    SaveAsImage = 1;
+    ImageMetadata = 2;
+    ChangeImageType = 3;
+}
+
+message FileValidateTemporaryFileRequest {
+    string temporary_file_token = 1;
+}
+
+message FileValidateTemporaryFileResponse {
+    string policy_metadata = 1;
+    string type = 2;
+    int32 size = 3;
+}
+
+message FileCommandTemporaryFileRequest {
+    FileCommandTemporaryFile command = 1;
+    string metadata = 2;
+    string policy_source = 3;
+    string temporary_file_token = 4;
+}
+
+message FileCommandTemporaryFileResponse {
+    string persistent_url = 1;
+    string result = 2;
+    string next_temporary_file_token = 3;
+}
