@@ -7,6 +7,7 @@ option go_package = "github.com/todennus/proto/gen/service";
 import "dto/file.proto";
 
 service File {
-    rpc ValidateTemporaryFile(dto.FileValidateTemporaryFileRequest) returns (dto.FileValidateTemporaryFileResponse) {}
-    rpc CommandTemporaryFile (dto.FileCommandTemporaryFileRequest) returns (dto.FileCommandTemporaryFileResponse) {}
+    rpc RegisterUpload(dto.FileRegisterUploadRequest) returns (dto.FileRegisterUploadResponse) {}
+    rpc CreatePresignedURL(dto.FileCreatePresignedURLRequest) returns (dto.FileCreatePresignedURLResponse) {}
+    rpc ChangeRefcount(dto.FileChangeRefcountRequest) returns (dto.FileChangeRefcountResponse) {}
 }

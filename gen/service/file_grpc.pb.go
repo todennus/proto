@@ -20,16 +20,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	File_ValidateTemporaryFile_FullMethodName = "/todennus.proto.service.File/ValidateTemporaryFile"
-	File_CommandTemporaryFile_FullMethodName  = "/todennus.proto.service.File/CommandTemporaryFile"
+	File_RegisterUpload_FullMethodName     = "/todennus.proto.service.File/RegisterUpload"
+	File_CreatePresignedURL_FullMethodName = "/todennus.proto.service.File/CreatePresignedURL"
+	File_ChangeRefcount_FullMethodName     = "/todennus.proto.service.File/ChangeRefcount"
 )
 
 // FileClient is the client API for File service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type FileClient interface {
-	ValidateTemporaryFile(ctx context.Context, in *dto.FileValidateTemporaryFileRequest, opts ...grpc.CallOption) (*dto.FileValidateTemporaryFileResponse, error)
-	CommandTemporaryFile(ctx context.Context, in *dto.FileCommandTemporaryFileRequest, opts ...grpc.CallOption) (*dto.FileCommandTemporaryFileResponse, error)
+	RegisterUpload(ctx context.Context, in *dto.FileRegisterUploadRequest, opts ...grpc.CallOption) (*dto.FileRegisterUploadResponse, error)
+	CreatePresignedURL(ctx context.Context, in *dto.FileCreatePresignedURLRequest, opts ...grpc.CallOption) (*dto.FileCreatePresignedURLResponse, error)
+	ChangeRefcount(ctx context.Context, in *dto.FileChangeRefcountRequest, opts ...grpc.CallOption) (*dto.FileChangeRefcountResponse, error)
 }
 
 type fileClient struct {
@@ -40,20 +42,30 @@ func NewFileClient(cc grpc.ClientConnInterface) FileClient {
 	return &fileClient{cc}
 }
 
-func (c *fileClient) ValidateTemporaryFile(ctx context.Context, in *dto.FileValidateTemporaryFileRequest, opts ...grpc.CallOption) (*dto.FileValidateTemporaryFileResponse, error) {
+func (c *fileClient) RegisterUpload(ctx context.Context, in *dto.FileRegisterUploadRequest, opts ...grpc.CallOption) (*dto.FileRegisterUploadResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(dto.FileValidateTemporaryFileResponse)
-	err := c.cc.Invoke(ctx, File_ValidateTemporaryFile_FullMethodName, in, out, cOpts...)
+	out := new(dto.FileRegisterUploadResponse)
+	err := c.cc.Invoke(ctx, File_RegisterUpload_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *fileClient) CommandTemporaryFile(ctx context.Context, in *dto.FileCommandTemporaryFileRequest, opts ...grpc.CallOption) (*dto.FileCommandTemporaryFileResponse, error) {
+func (c *fileClient) CreatePresignedURL(ctx context.Context, in *dto.FileCreatePresignedURLRequest, opts ...grpc.CallOption) (*dto.FileCreatePresignedURLResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(dto.FileCommandTemporaryFileResponse)
-	err := c.cc.Invoke(ctx, File_CommandTemporaryFile_FullMethodName, in, out, cOpts...)
+	out := new(dto.FileCreatePresignedURLResponse)
+	err := c.cc.Invoke(ctx, File_CreatePresignedURL_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *fileClient) ChangeRefcount(ctx context.Context, in *dto.FileChangeRefcountRequest, opts ...grpc.CallOption) (*dto.FileChangeRefcountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(dto.FileChangeRefcountResponse)
+	err := c.cc.Invoke(ctx, File_ChangeRefcount_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,8 +76,9 @@ func (c *fileClient) CommandTemporaryFile(ctx context.Context, in *dto.FileComma
 // All implementations must embed UnimplementedFileServer
 // for forward compatibility.
 type FileServer interface {
-	ValidateTemporaryFile(context.Context, *dto.FileValidateTemporaryFileRequest) (*dto.FileValidateTemporaryFileResponse, error)
-	CommandTemporaryFile(context.Context, *dto.FileCommandTemporaryFileRequest) (*dto.FileCommandTemporaryFileResponse, error)
+	RegisterUpload(context.Context, *dto.FileRegisterUploadRequest) (*dto.FileRegisterUploadResponse, error)
+	CreatePresignedURL(context.Context, *dto.FileCreatePresignedURLRequest) (*dto.FileCreatePresignedURLResponse, error)
+	ChangeRefcount(context.Context, *dto.FileChangeRefcountRequest) (*dto.FileChangeRefcountResponse, error)
 	mustEmbedUnimplementedFileServer()
 }
 
@@ -76,11 +89,14 @@ type FileServer interface {
 // pointer dereference when methods are called.
 type UnimplementedFileServer struct{}
 
-func (UnimplementedFileServer) ValidateTemporaryFile(context.Context, *dto.FileValidateTemporaryFileRequest) (*dto.FileValidateTemporaryFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ValidateTemporaryFile not implemented")
+func (UnimplementedFileServer) RegisterUpload(context.Context, *dto.FileRegisterUploadRequest) (*dto.FileRegisterUploadResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterUpload not implemented")
 }
-func (UnimplementedFileServer) CommandTemporaryFile(context.Context, *dto.FileCommandTemporaryFileRequest) (*dto.FileCommandTemporaryFileResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CommandTemporaryFile not implemented")
+func (UnimplementedFileServer) CreatePresignedURL(context.Context, *dto.FileCreatePresignedURLRequest) (*dto.FileCreatePresignedURLResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreatePresignedURL not implemented")
+}
+func (UnimplementedFileServer) ChangeRefcount(context.Context, *dto.FileChangeRefcountRequest) (*dto.FileChangeRefcountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeRefcount not implemented")
 }
 func (UnimplementedFileServer) mustEmbedUnimplementedFileServer() {}
 func (UnimplementedFileServer) testEmbeddedByValue()              {}
@@ -103,38 +119,56 @@ func RegisterFileServer(s grpc.ServiceRegistrar, srv FileServer) {
 	s.RegisterService(&File_ServiceDesc, srv)
 }
 
-func _File_ValidateTemporaryFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(dto.FileValidateTemporaryFileRequest)
+func _File_RegisterUpload_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(dto.FileRegisterUploadRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServer).ValidateTemporaryFile(ctx, in)
+		return srv.(FileServer).RegisterUpload(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: File_ValidateTemporaryFile_FullMethodName,
+		FullMethod: File_RegisterUpload_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServer).ValidateTemporaryFile(ctx, req.(*dto.FileValidateTemporaryFileRequest))
+		return srv.(FileServer).RegisterUpload(ctx, req.(*dto.FileRegisterUploadRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _File_CommandTemporaryFile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(dto.FileCommandTemporaryFileRequest)
+func _File_CreatePresignedURL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(dto.FileCreatePresignedURLRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FileServer).CommandTemporaryFile(ctx, in)
+		return srv.(FileServer).CreatePresignedURL(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: File_CommandTemporaryFile_FullMethodName,
+		FullMethod: File_CreatePresignedURL_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FileServer).CommandTemporaryFile(ctx, req.(*dto.FileCommandTemporaryFileRequest))
+		return srv.(FileServer).CreatePresignedURL(ctx, req.(*dto.FileCreatePresignedURLRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _File_ChangeRefcount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(dto.FileChangeRefcountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FileServer).ChangeRefcount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: File_ChangeRefcount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FileServer).ChangeRefcount(ctx, req.(*dto.FileChangeRefcountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -147,12 +181,16 @@ var File_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*FileServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ValidateTemporaryFile",
-			Handler:    _File_ValidateTemporaryFile_Handler,
+			MethodName: "RegisterUpload",
+			Handler:    _File_RegisterUpload_Handler,
 		},
 		{
-			MethodName: "CommandTemporaryFile",
-			Handler:    _File_CommandTemporaryFile_Handler,
+			MethodName: "CreatePresignedURL",
+			Handler:    _File_CreatePresignedURL_Handler,
+		},
+		{
+			MethodName: "ChangeRefcount",
+			Handler:    _File_ChangeRefcount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
